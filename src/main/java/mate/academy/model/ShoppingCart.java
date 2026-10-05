@@ -5,28 +5,31 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+import java.util.List;
 
 @Entity
 @Table(name = "shopping_cart")
 public class ShoppingCart {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
+    private List<Ticket> ticket;
     @OneToOne
+    @MapsId
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Ticket getTicket() {
+    public List<Ticket> getTicket() {
         return ticket;
     }
 
-    public void setTicket(Ticket ticket) {
+    public void setTicket(List<Ticket> ticket) {
         this.ticket = ticket;
     }
 

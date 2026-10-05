@@ -10,9 +10,10 @@ import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.service.ShoppingCartService;
 
+import java.util.List;
+
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-    private ShoppingCart shoppingCart = new ShoppingCart();
     @Inject
     private ShoppingCartDao shoppingCartDao;
     @Inject
@@ -24,8 +25,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ticket.setUser(user);
         ticket.setMovieSession(movieSession);
         ticketDao.add(ticket);
-        shoppingCart.setTicket(ticket);
-        shoppingCartDao.update(shoppingCart);
+        ShoppingCart cart = getByUser(user);
+        cart.setTicket(List.of(ticket));
+        shoppingCartDao.update(cart);
     }
 
     @Override
@@ -35,13 +37,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void registerNewShoppingCart(User user) {
+        ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCartDao.add(shoppingCart);
     }
 
     @Override
     public void clear(ShoppingCart shoppingCart) {
-        shoppingCart = new ShoppingCart();
+        shoppingCart.setTicket(null);
         shoppingCartDao.update(shoppingCart);
     }
 }
