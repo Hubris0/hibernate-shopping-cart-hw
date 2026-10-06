@@ -14,8 +14,7 @@ import java.util.List;
 public class ShoppingCart {
     @Id
     private Long id;
-    @OneToMany
-    @JoinColumn(name = "ticket_id")
+    @OneToMany(mappedBy = "shoppingCart")
     private List<Ticket> ticket;
     @OneToOne
     @MapsId
